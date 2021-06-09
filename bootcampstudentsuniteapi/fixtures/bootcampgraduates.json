@@ -1,0 +1,29 @@
+[
+    {
+        "model": "bootcampstudentsuniteapi.bootcampgraduate",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "bio": "Me",
+            "bootcamp_graduate_image": "image.png"
+        }
+    },
+    {
+        "model": "bootcampstudentsuniteapi.bootcampgraduate",
+        "pk": 2,
+        "fields": {
+            "user": 2,
+            "bio": "You",
+            "bootcamp_graduate_image": "image2.png"
+        }
+    },
+    {
+        "model": "bootcampstudentsuniteapi.bootcampgraduate",
+        "pk": 3,
+        "fields": {
+            "user": 3,
+            "bio": "They",
+            "bootcamp_graduate_image": "image3.png"
+        }
+    }
+]
