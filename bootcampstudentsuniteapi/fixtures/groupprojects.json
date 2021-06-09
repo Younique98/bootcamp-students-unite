@@ -1,0 +1,38 @@
+[
+    {
+        "model": "bootcampstudentsuniteapi.groupproject",
+        "pk": 1,
+        "fields": {
+            "title": "Clone of Something",
+            "number_of_graduates_signed_up":3,
+            "description": "Welcome To at lunch",
+            "project_manager": 1,
+            "github_link": "www.test.com",
+            "estimated_time_to_completion": 3
+        }
+    },
+    {
+        "model": "bootcampstudentsuniteapi.groupproject",
+        "pk": 2,
+        "fields": {
+            "title": "Clone of Something",
+            "number_of_graduates_signed_up":2,
+            "description": "Friday night Settlers and drinks",
+            "project_manager": 1,
+            "github_link": "www.test.com",
+            "estimated_time_to_completion": 4
+        }
+    },
+    {
+        "model": "bootcampstudentsuniteapi.groupproject",
+        "pk": 3,
+        "fields": {
+            "title": "Clone of Something",
+            "number_of_graduates_signed_up":1,
+            "description": "Vale of the Frost King campaign. All weekend.",
+            "project_manager": 1,
+            "github_link": "www.test.com",
+            "estimated_time_to_completion": 5
+        }
+    }
+]

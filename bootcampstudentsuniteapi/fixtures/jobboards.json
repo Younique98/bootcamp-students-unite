@@ -1,0 +1,32 @@
+[
+    {
+        "model": "bootcampstudentsuniteapi.jobboard",
+        "pk": 1,
+        "fields": {
+            "title": "Clone of Something",
+            "description": "Junior Developer",
+            "poster": 1,
+            "job_link": "www.test.com"
+        }
+    },
+    {
+        "model": "bootcampstudentsuniteapi.jobboard",
+        "pk": 2,
+        "fields": {
+            "title": "Junior Developer",
+            "description": "Friday night Settlers and drinks",
+            "poster": 2,
+            "job_link": "www.test.com"
+        }
+    },
+    {
+        "model": "bootcampstudentsuniteapi.jobboard",
+        "pk": 3,
+        "fields": {
+            "title": "Junior Developer",
+            "description": "Vale of the Frost King campaign. All weekend.",
+            "poster": 1,
+            "job_link": "www.test.com"
+        }
+    }
+]
