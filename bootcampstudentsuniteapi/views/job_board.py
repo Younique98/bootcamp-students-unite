@@ -6,12 +6,11 @@ from rest_framework.viewsets import ViewSet
 from django.contrib.auth.models import User
 from rest_framework.response import Response
 from rest_framework import serializers
-from rest_framework import status
 from rest_framework.decorators import action
 from bootcampstudentsuniteapi.models import JobBoard, BootCampGraduate
 
 
-class JobBoard(ViewSet):
+class JobBoards(ViewSet):
     """Job Board"""
 
     def create(self, request):
@@ -123,89 +122,11 @@ class JobBoard(ViewSet):
             Response -- JSON serialized list of job_boards
         """
         # Get all job_board records from the database
-        bootcamp_graduate = BootCampGraduate.objects.get(
-            user=request.auth.user)
         job_boards = JobBoard.objects.all()
-
-       # Set the `joined` property on every event
-        for job_board in job_boards:
-            job_board.joined = None
-
-            try:
-                Participant.objects.get(
-                    job_board=job_board, bootcamp_graduate=bootcamp_graduate)
-                job_board.joined = True
-            except Participant.DoesNotExist:
-                job_board.joined = False
 
         serializer = JobBoardSerializer(
             job_boards, many=True, context={'request': request})
         return Response(serializer.data)
-
-    @action(methods=['post', 'delete'], detail=True)
-    def signup(self, request, pk=None):
-        """Managing bootcamp_graduates signing up for job_boards"""
-
-        # A bootcamp_graduate wants to sign up for an job_board
-        if request.method == "POST":
-            # The pk would be `2` if the URL above was requested
-            job_board = JobBoard.objects.get(pk=pk)
-
-            # Django uses the `Authorization` header to determine
-            # which user is making the request to sign up
-            bootcamp_graduate = BootCampGraduate.objects.get(
-                user=request.auth.user)
-
-            try:
-                # Determine if the user is already signed up
-                registration = Participant.objects.get(
-                    job_board=job_board, bootcamp_graduate=bootcamp_graduate)
-                return Response(
-                    {'message': 'Participant is already signed up for this job.'},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-            except Participant.DoesNotExist:
-                # The user is not signed up.
-                registration = Participant()
-                registration.job_board = job_board
-                registration.bootcamp_graduate = bootcamp_graduate
-                registration.save()
-
-                return Response({}, status=status.HTTP_201_CREATED)
-
-        # User wants to leave a previously joined job_board
-        elif request.method == "DELETE":
-            # Handle the case if the client specifies a job_board
-            # that doesn't exist
-            try:
-                job_board = JobBoard.objects.get(pk=pk)
-            except JobBoard.DoesNotExist:
-                return Response(
-                    {'message': 'Job Board does not exist.'},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-
-            # Get the authenticated user
-            bootcamp_graduate = BootCampGraduate.objects.get(
-                user=request.auth.user)
-
-            try:
-                # Try to delete the signup
-                registration = Participant.objects.get(
-                    job_board=job_board, bootcamp_graduate=bootcamp_graduate)
-                registration.delete()
-                return Response(None, status=status.HTTP_204_NO_CONTENT)
-
-            except Participant.DoesNotExist:
-                return Response(
-                    {'message': 'Not currently following this group project.'},
-                    status=status.HTTP_404_NOT_FOUND
-                )
-
-        # If the client performs a request with a method of
-        # anything other than POST or DELETE, tell client that
-        # the method is not supported
-        return Response({}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
 class JobBoardUserSerializer(serializers.ModelSerializer):
@@ -221,12 +142,3 @@ class JobBoardSerializer(serializers.ModelSerializer):
     class Meta:
         model = JobBoard
         fields = ('id', 'title', 'description', 'poster', 'job_link')
-
-
-class Participant(serializers.ModelSerializer):
-    """JSON serializer for event organizer"""
-    user = JobBoardUserSerializer(many=False)
-
-    class Meta:
-        model = BootCampGraduate
-        fields = ['user']

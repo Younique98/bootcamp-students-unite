@@ -10,3 +10,11 @@ class GroupProject(models.Model):
         "BootCampGraduate", on_delete=models.CASCADE)
     estimated_time_to_completion = models.CharField(max_length=50)
     github_link = models.CharField(max_length=150)
+
+    @property
+    def joined(self):
+        return self.__joined
+
+    @joined.setter
+    def joined(self, value):
+        self.__joined = value
