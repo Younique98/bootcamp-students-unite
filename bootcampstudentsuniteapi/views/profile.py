@@ -5,7 +5,7 @@ from rest_framework.decorators import action
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
-from bootcampstudentsuniteapi.models import GroupProject, BootCampGraduate, Participant, bootcamp_graduate, project_manager
+from bootcampstudentsuniteapi.models import GroupProject, BootCampGraduate
 
 
 class Profile(ViewSet):
@@ -20,17 +20,18 @@ class Profile(ViewSet):
         bootcamp_graduate = BootCampGraduate.objects.get(
             user=request.auth.user)
         group_projects = GroupProject.objects.filter(
-            participant=bootcamp_graduate)
+            project_manager=bootcamp_graduate)
 
         group_projects = GroupProjectSerializer(
-            group_project, many=True, context={'request': request})
+            group_projects, many=True, context={'request': request})
+
         bootcamp_graduate = BootCampGraduateSerializer(
             bootcamp_graduate, many=False, context={'request': request})
 
         # Manually construct the JSON structure you want in the response
         profile = {}
         profile["bootcamp_graduate"] = bootcamp_graduate.data
-        profile["group_project"] = group_project.data
+        profile["group_projects"] = group_projects.data
 
         return Response(profile)
 

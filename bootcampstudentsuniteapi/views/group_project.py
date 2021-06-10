@@ -1,5 +1,5 @@
 """View module for handling requests about group_projects"""
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.contrib.auth.models import User
 from rest_framework import status
 from django.http import HttpResponseServerError
@@ -7,11 +7,10 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import serializers
-from rest_framework import status
-from bootcampstudentsuniteapi.models import BootCampGraduate, GroupProject, Participant
+from bootcampstudentsuniteapi.models import BootCampGraduate, GroupProject, Participant as ParticipantModelModel
 
 
-class GroupProject(ViewSet):
+class GroupProjects(ViewSet):
     """Group Project"""
 
     def create(self, request):
@@ -119,32 +118,6 @@ class GroupProject(ViewSet):
         except Exception as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    def list(self, request):
-        """Handle GET requests to group_projects resource
-
-        Returns:
-            Response -- JSON serialized list of group_projects
-        """
-        # Get all group_project records from the database
-        bootcamp_graduate = BootCampGraduate.objects.get(
-            user=request.auth.user)
-        group_projects = GroupProject.objects.all()
-
-       # Set the `joined` property on every event
-        for group_project in group_projects:
-            group_project.joined = None
-
-            try:
-                Participant.objects.get(
-                    group_project=group_project, bootcamp_graduate=bootcamp_graduate)
-                group_project.joined = True
-            except Participant.DoesNotExist:
-                group_project.joined = False
-
-        serializer = GroupProjectSerializer(
-            group_projects, many=True, context={'request': request})
-        return Response(serializer.data)
-
     @action(methods=['post', 'delete'], detail=True)
     def signup(self, request, pk=None):
         """Managing bootcamp_graduates signing up for group_projects"""
@@ -161,15 +134,15 @@ class GroupProject(ViewSet):
 
             try:
                 # Determine if the user is already signed up
-                registration = Participant.objects.get(
+                registration = ParticipantModel.objects.get(
                     group_project=group_project, bootcamp_graduate=bootcamp_graduate)
                 return Response(
-                    {'message': 'Participant is already signed up for this project.'},
+                    {'message': 'ParticipantModel is already signed up for this project.'},
                     status=status.HTTP_400_BAD_REQUEST
                 )
-            except Participant.DoesNotExist:
+            except ParticipantModel.DoesNotExist:
                 # The user is not signed up.
-                registration = Participant()
+                registration = ParticipantModel()
                 registration.group_project = group_project
                 registration.bootcamp_graduate = bootcamp_graduate
                 registration.save()
@@ -194,12 +167,12 @@ class GroupProject(ViewSet):
 
             try:
                 # Try to delete the signup
-                registration = Participant.objects.get(
+                registration = ParticipantModel.objects.get(
                     group_project=group_project, bootcamp_graduate=bootcamp_graduate)
                 registration.delete()
                 return Response(None, status=status.HTTP_204_NO_CONTENT)
 
-            except Participant.DoesNotExist:
+            except ParticipantModel.DoesNotExist:
                 return Response(
                     {'message': 'Not currently following this group project.'},
                     status=status.HTTP_404_NOT_FOUND
@@ -209,6 +182,32 @@ class GroupProject(ViewSet):
         # anything other than POST or DELETE, tell client that
         # the method is not supported
         return Response({}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+    def list(self, request):
+        """Handle GET requests to group_projects resource
+
+        Returns:
+            Response -- JSON serialized list of group_projects
+        """
+        # Get all group_project records from the database
+        bootcamp_graduate = BootCampGraduate.objects.get(
+            user=request.auth.user)
+        group_projects = GroupProject.objects.all()
+
+       # Set the `joined` property on every event
+        for group_project in group_projects:
+            group_project.joined = None
+
+            try:
+                ParticipantModelModel.objects.get(
+                    group_project=group_project, bootcamp_graduate=bootcamp_graduate)
+                group_project.joined = True
+            except ObjectDoesNotExist:
+                group_project.joined = False
+
+        serializer = GroupProjectSerializer(
+            group_projects, many=True, context={'request': request})
+        return Response(serializer.data)
 
 
 class GroupProjectUserSerializer(serializers.ModelSerializer):
@@ -227,7 +226,7 @@ class GroupProjectSerializer(serializers.ModelSerializer):
                   'github_link')
 
 
-class Participant(serializers.ModelSerializer):
+class ParticipantModel(serializers.ModelSerializer):
     """JSON serializer for event organizer"""
     user = GroupProjectUserSerializer(many=False)
 

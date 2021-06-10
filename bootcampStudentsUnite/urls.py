@@ -18,15 +18,15 @@ from django.urls import path
 from django.conf.urls import include
 from bootcampstudentsuniteapi.views import register_user, login_user
 from rest_framework import routers
-from bootcampstudentsuniteapi.views import JobBoard, GroupProject, Profile
+from bootcampstudentsuniteapi.views import JobBoards, GroupProjects, Profile
 
 # if did not have slash is false i would have to manually place it in the url
 # router is an instance of the default router class. default router class is built in to the django framework
 router = routers.DefaultRouter(trailing_slash=False)
 
-router.register(r'groupprojects', GroupProject, 'groupproject')
+router.register(r'groupprojects', GroupProjects, 'groupproject')
 router.register(r'profile', Profile, 'profile')
-router.register(r'jobboard', JobBoard, 'jobboard')
+router.register(r'jobboard', JobBoards, 'jobboard')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
