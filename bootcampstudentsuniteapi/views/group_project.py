@@ -7,7 +7,7 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import serializers
-from bootcampstudentsuniteapi.models import BootCampGraduate, GroupProject, Participant as ParticipantModel
+from bootcampstudentsuniteapi.models import BootCampGraduate, GroupProject, Participant as ParticipantModelModel
 
 
 class GroupProjects(ViewSet):
@@ -134,15 +134,15 @@ class GroupProjects(ViewSet):
 
             try:
                 # Determine if the user is already signed up
-                registration = Participant.objects.get(
+                registration = ParticipantModel.objects.get(
                     group_project=group_project, bootcamp_graduate=bootcamp_graduate)
                 return Response(
-                    {'message': 'Participant is already signed up for this project.'},
+                    {'message': 'ParticipantModel is already signed up for this project.'},
                     status=status.HTTP_400_BAD_REQUEST
                 )
-            except Participant.DoesNotExist:
+            except ParticipantModel.DoesNotExist:
                 # The user is not signed up.
-                registration = Participant()
+                registration = ParticipantModel()
                 registration.group_project = group_project
                 registration.bootcamp_graduate = bootcamp_graduate
                 registration.save()
@@ -167,12 +167,12 @@ class GroupProjects(ViewSet):
 
             try:
                 # Try to delete the signup
-                registration = Participant.objects.get(
+                registration = ParticipantModel.objects.get(
                     group_project=group_project, bootcamp_graduate=bootcamp_graduate)
                 registration.delete()
                 return Response(None, status=status.HTTP_204_NO_CONTENT)
 
-            except Participant.DoesNotExist:
+            except ParticipantModel.DoesNotExist:
                 return Response(
                     {'message': 'Not currently following this group project.'},
                     status=status.HTTP_404_NOT_FOUND
@@ -199,7 +199,7 @@ class GroupProjects(ViewSet):
             group_project.joined = None
 
             try:
-                ParticipantModel.objects.get(
+                ParticipantModelModel.objects.get(
                     group_project=group_project, bootcamp_graduate=bootcamp_graduate)
                 group_project.joined = True
             except ObjectDoesNotExist:
@@ -226,7 +226,7 @@ class GroupProjectSerializer(serializers.ModelSerializer):
                   'github_link')
 
 
-class Participant(serializers.ModelSerializer):
+class ParticipantModel(serializers.ModelSerializer):
     """JSON serializer for event organizer"""
     user = GroupProjectUserSerializer(many=False)
 
