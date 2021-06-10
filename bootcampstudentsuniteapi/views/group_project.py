@@ -7,7 +7,7 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import serializers
-from bootcampstudentsuniteapi.models import BootCampGraduate, GroupProject, Participant as ParticipantModelModel
+from bootcampstudentsuniteapi.models import BootCampGraduate, GroupProject, Participant as ParticipantModel
 
 
 class GroupProjects(ViewSet):
@@ -199,7 +199,7 @@ class GroupProjects(ViewSet):
             group_project.joined = None
 
             try:
-                ParticipantModelModel.objects.get(
+                ParticipantModel.objects.get(
                     group_project=group_project, bootcamp_graduate=bootcamp_graduate)
                 group_project.joined = True
             except ObjectDoesNotExist:
@@ -217,19 +217,20 @@ class GroupProjectUserSerializer(serializers.ModelSerializer):
         fields = ['first_name', 'last_name', 'email']
 
 
-class GroupProjectSerializer(serializers.ModelSerializer):
-    """JSON serializer for group_projects"""
-
-    class Meta:
-        model = GroupProject
-        fields = ('id', 'title', 'number_of_graduates_signed_up',  'description', 'project_manager', 'estimated_time_to_completion',
-                  'github_link')
-
-
-class ParticipantModel(serializers.ModelSerializer):
+class ParticipantSerializer(serializers.ModelSerializer):
     """JSON serializer for event organizer"""
     user = GroupProjectUserSerializer(many=False)
 
     class Meta:
         model = BootCampGraduate
         fields = ['user']
+
+
+class GroupProjectSerializer(serializers.ModelSerializer):
+    """JSON serializer for group_projects"""
+    project_manager = ParticipantSerializer(many=False)
+
+    class Meta:
+        model = GroupProject
+        fields = ('id', 'title', 'number_of_graduates_signed_up',  'description', 'project_manager', 'estimated_time_to_completion',
+                  'github_link', 'project_manager')

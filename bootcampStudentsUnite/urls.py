@@ -19,6 +19,8 @@ from django.conf.urls import include
 from bootcampstudentsuniteapi.views import register_user, login_user
 from rest_framework import routers
 from bootcampstudentsuniteapi.views import JobBoards, GroupProjects, Profile
+from django.conf import settings
+from django.conf.urls.static import static
 
 # if did not have slash is false i would have to manually place it in the url
 # router is an instance of the default router class. default router class is built in to the django framework
@@ -35,3 +37,7 @@ urlpatterns = [
     path('login', login_user),
     path('api-auth', include('rest_framework.urls', namespace='rest_framework')),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)

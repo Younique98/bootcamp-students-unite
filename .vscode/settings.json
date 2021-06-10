@@ -1,4 +1,12 @@
 {
     "python.linting.pylintEnabled": true,
-    "python.pythonPath": "/Users/ericathompson/.local/share/virtualenvs/bootcamp-students-unite-54eAkZ7A/bin/python"
+    "python.pythonPath": "/Users/ericathompson/.local/share/virtualenvs/bootcamp-students-unite-54eAkZ7A/bin/python",
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "BootCampStudentsUnite",
+            "database": "db.sqlite3"
+        }
+    ]
 }
