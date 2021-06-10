@@ -28,7 +28,7 @@ class Profile(ViewSet):
         bootcamp_graduate = BootCampGraduateSerializer(
             bootcamp_graduate, many=False, context={'request': request})
 
-        # Manually construct the JSON structure you want in the response
+        # Manually construction of  the JSON structure in the response
         profile = {}
         profile["bootcamp_graduate"] = bootcamp_graduate.data
         profile["group_projects"] = group_projects.data
