@@ -60,8 +60,8 @@ def register_user(request):
         email=req_body['email']
     )
 
-    # Now save the extra info in the levelupapi_bootcamp_graduate table
-    bootcamp_graduate = Bootc.objects.create(
+    # Now save the extra info in the bootcampgraduateapi_bootcamp_graduate table
+    bootcamp_graduate = BootCampGraduate.objects.create(
         bio=req_body['bio'],
         user=new_user,
         bootcamp_graduate_image=req_body['uploadProfileImg']

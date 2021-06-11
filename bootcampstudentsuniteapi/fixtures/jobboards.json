@@ -6,7 +6,7 @@
             "title": "Clone of Something",
             "description": "Junior Developer",
             "poster": 1,
-            "job_link": "www.test.com"
+            "job_link": "http://www.google.com"
         }
     },
     {
@@ -16,7 +16,7 @@
             "title": "Junior Developer",
             "description": "Friday night Settlers and drinks",
             "poster": 2,
-            "job_link": "www.test.com"
+            "job_link": "http://www.test.com"
         }
     },
     {
@@ -26,7 +26,7 @@
             "title": "Junior Developer",
             "description": "Vale of the Frost King campaign. All weekend.",
             "poster": 1,
-            "job_link": "www.test.com"
+            "job_link": "http://www.test.com"
         }
     }
 ]
