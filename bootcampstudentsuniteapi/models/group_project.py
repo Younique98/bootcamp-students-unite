@@ -10,6 +10,8 @@ class GroupProject(models.Model):
         "BootCampGraduate", on_delete=models.CASCADE)
     estimated_time_to_completion = models.CharField(max_length=50)
     github_link = models.CharField(max_length=150)
+    participants = models.ManyToManyField(
+        "BootcampGraduate", through='participant', related_name='participator')
 
     @property
     def joined(self):
