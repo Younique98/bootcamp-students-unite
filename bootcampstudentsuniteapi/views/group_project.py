@@ -137,7 +137,7 @@ class GroupProjects(ViewSet):
                 registration = ParticipantModel.objects.get(
                     group_project=group_project, bootcamp_graduate=bootcamp_graduate)
                 return Response(
-                    {'message': 'ParticipantModel is already signed up for this project.'},
+                    {'message': 'Participant is already signed up for this project.'},
                     status=status.HTTP_400_BAD_REQUEST
                 )
             except ParticipantModel.DoesNotExist:
@@ -174,7 +174,7 @@ class GroupProjects(ViewSet):
 
             except ParticipantModel.DoesNotExist:
                 return Response(
-                    {'message': 'Not currently following this group project.'},
+                    {'message': 'Not currently in this group project.'},
                     status=status.HTTP_404_NOT_FOUND
                 )
 
@@ -233,4 +233,4 @@ class GroupProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = GroupProject
         fields = ('id', 'title', 'number_of_graduates_signed_up',  'description', 'project_manager', 'estimated_time_to_completion',
-                  'github_link', 'project_manager')
+                  'github_link', 'project_manager', 'participants')
