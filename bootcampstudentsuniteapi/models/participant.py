@@ -1,4 +1,5 @@
 from django.db import models
+# model for participant
 
 
 class Participant(models.Model):
