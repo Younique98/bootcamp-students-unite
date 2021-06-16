@@ -119,6 +119,7 @@ class GroupProjects(ViewSet):
         except Exception as ex:
             return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+# allows users to join a project
     @action(methods=['post', 'delete'], detail=True)
     def signup(self, request, pk=None):
         """Managing bootcamp_graduates signing up for group_projects"""
