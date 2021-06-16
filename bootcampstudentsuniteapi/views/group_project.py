@@ -104,7 +104,7 @@ class GroupProjects(ViewSet):
         """Handle DELETE requests for a single group_project
 
         Returns:
-            Response -- 200, 404, or 500 status code
+            Response -- 200, 404, or 500 status codecd ..
         """
         try:
             group_project = GroupProject.objects.get(
