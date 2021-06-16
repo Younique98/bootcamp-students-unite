@@ -104,10 +104,11 @@ class GroupProjects(ViewSet):
         """Handle DELETE requests for a single group_project
 
         Returns:
-            Response -- 200, 404, or 500 status code
+            Response -- 200, 404, or 500 status codecd ..
         """
         try:
-            group_project = GroupProject.objects.get(pk=pk)
+            group_project = GroupProject.objects.get(
+                user=request.auth.user, pk=pk)
             group_project.delete()
 
             return Response({}, status=status.HTTP_204_NO_CONTENT)
@@ -214,7 +215,7 @@ class GroupProjectUserSerializer(serializers.ModelSerializer):
     """JSON serializer for group project organizer's related Django user"""
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email']
+        fields = ['id', 'first_name', 'last_name', 'email']
 
 
 class ParticipantSerializer(serializers.ModelSerializer):
