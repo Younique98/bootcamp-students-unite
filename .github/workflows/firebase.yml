@@ -32,6 +32,8 @@ jobs:
     - name: Run integration tests against emulator
       run: |
         npm install -g firebase-tools
+        firebase login --no-localhost
+        firebase init
         firebase emulators:exec --only database --project fake-project-id 'pytest integration/test_db.py'
   lint:
     runs-on: ubuntu-latest
