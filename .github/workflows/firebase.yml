@@ -37,12 +37,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python 3.7
-      uses: actions/setup-python@v1
-      with:
-        python-version: 3.7
-    - name: Lint with pylint
-      run: ./lint.sh all
     - name: Deploy to Firebase
       uses: w9jds/firebase-action@master
       with:
