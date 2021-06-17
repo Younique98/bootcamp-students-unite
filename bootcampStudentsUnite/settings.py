@@ -20,10 +20,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-c4e&*7s0*p4c3*2z@mp1=!-@dy_=la7&n9#)0hj+uane&#6z3h'
+SECRET_KEY = os.getenv(
+    'django-insecure-c4e&*7s0*p4c3*2z@mp1=!-@dy_=la7&n9#)0hj+uane&#6z3h')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -144,3 +145,8 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
     'http://127.0.0.1:3000'
 )
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = "/static/"
+
+django_on_heroku.settings(locals())
