@@ -1,6 +1,4 @@
 # bootcamp-students-unite
-![Bootcamp Students Unite](https://user-images.githubusercontent.com/18708698/121244017-3e6b6b00-c853-11eb-8e4d-afe767744a38.png)
-![Bootcamp Students Unite Wirefame](https://user-images.githubusercontent.com/18708698/121246667-44af1680-c856-11eb-93bf-3e0ba600f1e4.png)
 
 # Project Title
 
@@ -15,9 +13,48 @@ Npm start
 
 The things you need before installing the software.
 
-* Code Editor
-* Github Repo
+- Code Editor
+- Github Repo
 
+# boot-camp-students-server
+
+Back End Capstone
+
+## To Run Locally
+
+Clone down the directory
+` git clone git@github.com:Younique98/bootcamp-students-unite-client.git`
+
+Run the following commands to install pipenv and create a virtual environment.
+
+    ```pip3 install --user pipx```
+    ```pipx install pipenv ```
+    ```pipenv shell```
+
+Next, install these third-party packages
+
+`pipenv install`
+
+Load Fixtures
+
+`python3 manage.py migrate`
+`python3 manage.py loaddata bootcampgraduates`
+`python3 manage.py loaddata groupprojects`
+`python3 manage.py loaddata jobboards`
+`python3 manage.py loaddata tokens`
+`python3 manage.py loaddata users`
+
+Then start the server
+
+`python3 manage.py runserver`
+
+URL
+
+https://bootcamp-students-unite.herokuapp.com/
+
+Description
+
+Api for backend capstone
 
 ### Installation
 
@@ -43,18 +80,17 @@ Additional notes on how to deploy this on a live or release system. Explaining t
 
 ### Server
 
-* Live: MongoDB & AWS Cloud
-* Development: localhost://3000
+- Live: MongoDB & AWS Cloud
+- Development: localhost://3000
 
 ### Branches
 
-* Main:
-* Feature:
-* Bugfix:
-* etc...
+- Main:
+- Feature:
+- Bugfix:
+- etc...
 
 ## Additional Documentation and Acknowledgments
 
-* WireFrame link: https://www.figma.com/file/uSZuUwOS6Yp918Imr9irar/Bootcamp-Students-Unite?node-id=0%3A1
-* ERD link: https://dbdiagram.io/d/60bf8e0cb29a09603d1883fd
-
+![Bootcamp Students Unite](https://user-images.githubusercontent.com/18708698/121244017-3e6b6b00-c853-11eb-8e4d-afe767744a38.png)
+![Bootcamp Students Unite Wirefame](https://user-images.githubusercontent.com/18708698/121246667-44af1680-c856-11eb-93bf-3e0ba600f1e4.png)
